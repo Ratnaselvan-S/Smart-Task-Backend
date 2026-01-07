@@ -1,8 +1,11 @@
 const db = require("../data/database");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 class User {
   constructor(userData) {
+    if (!userData) {
+      return;
+    }
     (this.email = userData.email),
       (this.password = userData.password),
       (this.name = userData.name || "");
@@ -15,6 +18,10 @@ class User {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
+  async comparePassword(plainpassword) {
+    return await bcrypt.compare(plainpassword, this.password);
+  }
+
   async save() {
     await db.getDatabase().collection("users").insertOne({
       email: this.email,
@@ -23,8 +30,15 @@ class User {
     });
   }
   static async findByEmail(email) {
-    const user = await db.getDatabase().collection("users").findOne({ email });
-    return user;
+    const userData = await db
+      .getDatabase()
+      .collection("users")
+      .findOne({ email });
+
+    if (!userData) {
+      return null; // ✅ real null
+    }
+    return new User(userData);
   }
 }
 

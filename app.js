@@ -1,13 +1,10 @@
 const express = require("express");
 const app = express();
 const authRoutes = require("./routes/auth.routes");
+const cookieParser = require("cookie-parser");
 
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("Backend is running");
-});
-
+app.use(cookieParser());
 app.use(authRoutes);
 
 module.exports = app;
