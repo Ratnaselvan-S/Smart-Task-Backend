@@ -2,7 +2,7 @@ require("dotenv").config();
 const app = require("./app");
 
 const { connectToDatabase, getDatabase } = require("./data/database");
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 async function startServer() {
   try {
@@ -11,7 +11,7 @@ async function startServer() {
       console.log("Port successfully started");
     });
   } catch (error) {
-    console.log("Could not start the server");
+    console.log("Database is not connected");
   }
 }
 startServer();
