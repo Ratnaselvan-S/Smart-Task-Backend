@@ -60,7 +60,7 @@ async function Login(req, res) {
     }
 
     const isPasswordValid = await user.comparePassword(password);
-    console.log(isPasswordValid);
+
     if (!isPasswordValid) {
       return res.status(401).json({
         message: "Invalid email or password",

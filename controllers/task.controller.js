@@ -10,7 +10,7 @@ async function createTask(req, res) {
       title,
       description,
       priority,
-      userId: req.user.userId, // from JWT middleware
+      userId: req.user.userId,
     });
 
     await task.save();
